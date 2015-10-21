@@ -12,6 +12,7 @@ import AppKit
 
 public class Settings : NSWindowController, NSWindowDelegate {
     
+    @available(OSX 10.10, *)
     lazy var webViewController = WebViewController()
     var webView: WebView!
     
@@ -25,7 +26,7 @@ public class Settings : NSWindowController, NSWindowDelegate {
     }
     
     public func windowWillClose(notification: NSNotification) {
-        var webUA = Preferences.getString("userAgentString")
+        let webUA = Preferences.getString("userAgentString")
         webView.customUserAgent = webUA
         webView.mainFrame.reload()
     }

@@ -11,6 +11,7 @@ import WebKit
 import AppKit
 import Cocoa
 
+@available(OSX 10.10, *)
 class WebViewController: NSViewController, WKNavigationDelegate {
     
     @IBOutlet weak var webView: WebView!
@@ -20,7 +21,11 @@ class WebViewController: NSViewController, WKNavigationDelegate {
     let webUrl = "https://inbox.google.com"
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        if #available(OSX 10.10, *) {
+            super.viewDidLoad()
+        } else {
+            // Fallback on earlier versions
+        }
         
         let request = NSMutableURLRequest(URL: NSURL(string: webUrl)!)
         
@@ -28,7 +33,7 @@ class WebViewController: NSViewController, WKNavigationDelegate {
             Preferences.clearDefaults()
         }
         
-        var webUA = Preferences.getString("userAgentString")
+        let webUA = Preferences.getString("userAgentString")
         webView.customUserAgent = webUA
         webView.mainFrame.loadRequest(request)
     }
@@ -37,6 +42,7 @@ class WebViewController: NSViewController, WKNavigationDelegate {
         settingsController.showWindow(sender, webView: webView)
     }
     
+    @available(OSX 10.10, *)
     func webView(sender: WKWebView,
         decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
             if sender == webView {
@@ -63,7 +69,7 @@ class WebViewController: NSViewController, WKNavigationDelegate {
     }
     
     override func webView(webView: WebView!, decidePolicyForNewWindowAction actionInformation: [NSObject : AnyObject]!, request: NSURLRequest!, newFrameName frameName: String!, decisionListener listener: WebPolicyDecisionListener!) {
-        if (request.URL!.absoluteString!.hasPrefix("https://accounts.google.com") == false && request.URL!.absoluteString!.hasPrefix("https://inbox.google.com") == false) {
+        if (request.URL!.absoluteString.hasPrefix("https://accounts.google.com") == false && request.URL!.absoluteString.hasPrefix("https://inbox.google.com") == false) {
             NSWorkspace.sharedWorkspace().openURL(NSURL(string: (actionInformation["WebActionOriginalURLKey"]?.absoluteString)!)!)
             listener.ignore()
         } else {
@@ -94,7 +100,7 @@ class WebViewController: NSViewController, WKNavigationDelegate {
             windowScriptObject.evaluateWebScript("console = { log: function(msg) { gInbox.consoleLog(msg); } }")
             
             let path = NSBundle.mainBundle().pathForResource("gInboxTweaks", ofType: "js")
-            let jsString = String(contentsOfFile: path!, encoding: NSUTF8StringEncoding, error: nil)
+            let jsString = try? String(contentsOfFile: path!, encoding: NSUTF8StringEncoding)
             let script = document.createElement("script")
             let jsText = document.createTextNode(jsString)
             let bodyEl = document.getElementsByName("body").item(0)

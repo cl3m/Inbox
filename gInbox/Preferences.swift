@@ -20,7 +20,7 @@ class Preferences {
         let productIdentifier   = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleIdentifier") as! String
         
         getDefaults().removePersistentDomainForName(productIdentifier)
-        getDefaults().registerDefaults(dic as [NSObject : AnyObject])
+        getDefaults().registerDefaults(dic as! [String : AnyObject])
     }
     
     class func getInt(key: String) -> Int? {
