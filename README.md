@@ -1,6 +1,11 @@
 gInbox
 ======
 
+### Looking for contributors
+
+I really have no time to keep this active, and there are plenty of issues that need to be resolved and updates that need to be made...
+gInbox is looking for a contributor to take initiative and take the project into their hands. If you're interested, please open an issue here or email me (address is in my profile). Thank you guys for all your support! I wish I could keep working on this project :(
+
 ![Inbox by Gmail](http://i.imgur.com/ZxaChmj.png)
 
 gInbox is a wrapper made for Mac around Inbox by Gmail.
