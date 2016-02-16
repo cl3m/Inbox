@@ -12,8 +12,7 @@ import AppKit
 
 public class Settings : NSWindowController, NSWindowDelegate {
     
-    @available(OSX 10.10, *)
-    lazy var webViewController = WebViewController()
+	lazy var webViewController : WebViewController = WebViewController()
     var webView: WebView!
     
     public override func showWindow(sender: AnyObject?) {
@@ -26,8 +25,9 @@ public class Settings : NSWindowController, NSWindowDelegate {
     }
     
     public func windowWillClose(notification: NSNotification) {
-        let webUA = Preferences.getString("userAgentString")
-        webView.customUserAgent = webUA
+		if let webUA = Preferences.getString("userAgentString") where webUA.characters.count > 0 {
+			webView.customUserAgent = webUA
+		}
         webView.mainFrame.reload()
     }
     

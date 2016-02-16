@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6250" systemVersion="14B23" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1509" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6250"/>
-        <plugIn identifier="com.apple.WebKitIBPlugin" version="6250"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+        <plugIn identifier="com.apple.WebKitIBPlugin" version="9531"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -13,19 +12,20 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="MCO-2s-7LU" userLabel="AppDelegate" customClass="AppDelegate" customModule="Inbox_by_Gmail" customModuleProvider="target">
+        <customObject id="MCO-2s-7LU" userLabel="AppDelegate" customClass="AppDelegate" customModule="Inbox" customModuleProvider="target">
             <connections>
+                <outlet property="webViewController" destination="FgR-q1-vI5" id="4Vi-yG-RYb"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="NPE-9G-dK5"/>
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
             <items>
-                <menuItem title="gInbox" id="1Xt-HY-uBw">
+                <menuItem title="Inbox" id="1Xt-HY-uBw">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="gInbox" systemMenu="apple" id="uQy-DD-JDr">
+                    <menu key="submenu" title="Inbox" systemMenu="apple" id="uQy-DD-JDr">
                         <items>
-                            <menuItem title="About gInbox" id="5kV-Vb-QxS">
+                            <menuItem title="About Inbox" id="5kV-Vb-QxS">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="orderFrontStandardAboutPanel:" target="-1" id="Exp-CZ-Vem"/>
@@ -41,6 +41,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="checkForUpdates:" target="lSI-PI-UxI" id="nV8-XG-Q8C"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Logout" id="x6D-bo-DKp" userLabel="Logout">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="logout:" target="FgR-q1-vI5" id="HOv-re-ckm"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
@@ -67,7 +73,7 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
-                            <menuItem title="Quit gInbox" keyEquivalent="q" id="4sb-4s-VLi">
+                            <menuItem title="Quit Inbox" keyEquivalent="q" id="4sb-4s-VLi">
                                 <connections>
                                     <action selector="terminate:" target="-1" id="Te7-pn-YzF"/>
                                 </connections>
@@ -668,7 +674,7 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                         <items>
-                            <menuItem title="gInbox Help" keyEquivalent="?" id="FKE-Sm-Kum">
+                            <menuItem title="Inbox Help" keyEquivalent="?" id="FKE-Sm-Kum">
                                 <connections>
                                     <action selector="showHelp:" target="-1" id="y7X-2Q-9no"/>
                                 </connections>
@@ -678,10 +684,10 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="Inbox for Gmail" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
+        <window title="Google Inbox" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="280" y="77" width="1000" height="600"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="800"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ" customClass="WebView">
                 <rect key="frame" x="0.0" y="0.0" width="1000" height="600"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -713,7 +719,7 @@
             </view>
             <point key="canvasLocation" x="-1184" y="-771"/>
         </window>
-        <customObject id="FgR-q1-vI5" customClass="WebViewController" customModule="Inbox_by_Gmail" customModuleProvider="target">
+        <customObject id="FgR-q1-vI5" customClass="WebViewController" customModule="Inbox" customModuleProvider="target">
             <connections>
                 <outlet property="view" destination="EiT-Mj-1SZ" id="8sQ-dz-W5V"/>
                 <outlet property="webView" destination="EiT-Mj-1SZ" id="enV-sR-1Y8"/>

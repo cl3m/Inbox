@@ -21,7 +21,6 @@ class WebViewController: NSViewController, WKNavigationDelegate {
     let webUrl = "https://inbox.google.com"
     
     override func viewDidLoad() {
-        if #available(OSX 10.10, *) {
             super.viewDidLoad()
         } else {
             // Fallback on earlier versions
@@ -33,14 +32,19 @@ class WebViewController: NSViewController, WKNavigationDelegate {
             Preferences.clearDefaults()
         }
         
-        let webUA = Preferences.getString("userAgentString")
+		if let webUA = Preferences.getString("userAgentString") where webUA.characters.count > 0 {
         webView.customUserAgent = webUA
+		}
         webView.mainFrame.loadRequest(request)
     }
     
     @IBAction func openSettings(sender: AnyObject) {
         settingsController.showWindow(sender, webView: webView)
     }
+    
+	@IBAction func logout(sender: AnyObject) {
+		webView.mainFrame.loadRequest(NSURLRequest(URL: NSURL(string: "https://accounts.google.com/Logout?continue=https%3A%2F%2Finbox.google.com%2F")!))
+	}
     
     @available(OSX 10.10, *)
     func webView(sender: WKWebView,
@@ -50,7 +54,7 @@ class WebViewController: NSViewController, WKNavigationDelegate {
             }
     }
     
-    override func webView(sender: WebView!, decidePolicyForNavigationAction actionInformation: [NSObject : AnyObject]!, request: NSURLRequest!, frame: WebFrame!, decisionListener listener: WebPolicyDecisionListener!) {
+    func webView(sender: WebView!, decidePolicyForNavigationAction actionInformation: [NSObject : AnyObject]!, request: NSURLRequest!, frame: WebFrame!, decisionListener listener: WebPolicyDecisionListener!) {
         
         if actionInformation["WebActionOriginalURLKey"] != nil {
             let url = (actionInformation["WebActionOriginalURLKey"]?.absoluteString as String?)!
@@ -68,7 +72,7 @@ class WebViewController: NSViewController, WKNavigationDelegate {
         }
     }
     
-    override func webView(webView: WebView!, decidePolicyForNewWindowAction actionInformation: [NSObject : AnyObject]!, request: NSURLRequest!, newFrameName frameName: String!, decisionListener listener: WebPolicyDecisionListener!) {
+    func webView(webView: WebView!, decidePolicyForNewWindowAction actionInformation: [NSObject : AnyObject]!, request: NSURLRequest!, newFrameName frameName: String!, decisionListener listener: WebPolicyDecisionListener!) {
         if (request.URL!.absoluteString.hasPrefix("https://accounts.google.com") == false && request.URL!.absoluteString.hasPrefix("https://inbox.google.com") == false) {
             NSWorkspace.sharedWorkspace().openURL(NSURL(string: (actionInformation["WebActionOriginalURLKey"]?.absoluteString)!)!)
             listener.ignore()
@@ -90,7 +94,7 @@ class WebViewController: NSViewController, WKNavigationDelegate {
         NSLog("[JS] -> %@", message)
     }
     
-    override func webView(sender: WebView!, didClearWindowObject windowObject: WebScriptObject!, forFrame frame: WebFrame!) {
+    func webView(sender: WebView!, didClearWindowObject windowObject: WebScriptObject!, forFrame frame: WebFrame!) {
         
         if (webView.mainFrameDocument != nil) { // && frame.DOMDocument == webView.mainFrameDocument) {
             let document:DOMDocument = webView.mainFrameDocument
@@ -116,7 +120,7 @@ class WebViewController: NSViewController, WKNavigationDelegate {
         }
     }
     
-    override func webView(sender: WebView!, resource identifier: AnyObject!, willSendRequest request: NSURLRequest!, redirectResponse: NSURLResponse!, fromDataSource dataSource: WebDataSource!) -> NSURLRequest! {
+    func webView(sender: WebView!, resource identifier: AnyObject!, willSendRequest request: NSURLRequest!, redirectResponse: NSURLResponse!, fromDataSource dataSource: WebDataSource!) -> NSURLRequest! {
         
         return NSMutableURLRequest(URL: request.URL!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: request.timeoutInterval)
     }

@@ -1,0 +1,16 @@
+PODS:
+  - Alamofire (3.2.0)
+  - Sparkle (1.13.1)
+  - SWXMLHash (2.1.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 3.2)
+  - Sparkle (~> 1.13)
+  - SWXMLHash (~> 2.1)
+
+SPEC CHECKSUMS:
+  Alamofire: 4da478599fccddff361205c8929333d7fe18dceb
+  Sparkle: 2fbd47b869621d1e679c7554e3e19dda02104818
+  SWXMLHash: 7257a358b3ab2f7a209e0b4e4cf552e8b6df5f0f
+
+COCOAPODS: 0.39.0

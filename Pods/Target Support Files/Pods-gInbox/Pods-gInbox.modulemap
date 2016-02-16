@@ -1,0 +1,6 @@
+framework module Pods_gInbox {
+  umbrella header "Pods-gInbox-umbrella.h"
+
+  export *
+  module * { export * }
+}
