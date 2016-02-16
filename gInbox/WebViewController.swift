@@ -12,7 +12,7 @@ import AppKit
 import Cocoa
 
 @available(OSX 10.10, *)
-class WebViewController: NSViewController, WKNavigationDelegate {
+class WebViewController: NSViewController, WKNavigationDelegate, NSURLDownloadDelegate {
     
     @IBOutlet weak var webView: WebView!
     let settingsController = Settings(windowNibName: "Settings")
@@ -81,6 +81,16 @@ class WebViewController: NSViewController, WKNavigationDelegate {
         }
     }
     
+	func webView(webView: WebView!, decidePolicyForMIMEType type: String!, request: NSURLRequest!, frame: WebFrame!, decisionListener listener: WebPolicyDecisionListener!) {
+		if(type != "text/html") {
+			listener.download()
+			let download = NSURLDownload(request: request, delegate: self)
+			let filename = request.URL?.lastPathComponent ?? "untitled"
+			let path = (NSHomeDirectory() as NSString).stringByAppendingPathComponent("Downloads/\(filename)")
+			download.setDestination(path, allowOverwrite: false)
+		}
+	}
+
     /*override func webView(sender: WebView!, didFinishLoadForFrame frame: WebFrame!) {
         let path = NSBundle.mainBundle().pathForResource("gInboxTweaks", ofType: "js", inDirectory: "Assets")
         let jsString = String(contentsOfFile: path!, encoding: NSUTF8StringEncoding, error: nil)
