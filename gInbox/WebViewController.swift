@@ -17,23 +17,24 @@ class WebViewController: NSViewController, WKNavigationDelegate, NSURLDownloadDe
     @IBOutlet weak var webView: WebView!
     let settingsController = Settings(windowNibName: "Settings")
     
-    // constants
-    let webUrl = "https://inbox.google.com"
-    
     override func viewDidLoad() {
-            super.viewDidLoad()
-        } else {
-            // Fallback on earlier versions
-        }
-        
-        let request = NSMutableURLRequest(URL: NSURL(string: webUrl)!)
+        super.viewDidLoad()
+		
+		let url : NSURL!
+		if let app = NSApplication.sharedApplication().delegate as? AppDelegate, let mailto = app.mailto {
+			url = mailto
+		} else {
+			url = NSURL(string : "https://inbox.google.com/")!
+		}
+		
+        let request = NSURLRequest(URL: url)
         
         if (!Preferences.getBool("afterFirstLaunch")!) {
             Preferences.clearDefaults()
         }
         
 		if let webUA = Preferences.getString("userAgentString") where webUA.characters.count > 0 {
-        webView.customUserAgent = webUA
+			webView.customUserAgent = webUA
 		}
         webView.mainFrame.loadRequest(request)
     }
@@ -41,7 +42,7 @@ class WebViewController: NSViewController, WKNavigationDelegate, NSURLDownloadDe
     @IBAction func openSettings(sender: AnyObject) {
         settingsController.showWindow(sender, webView: webView)
     }
-    
+	
 	@IBAction func logout(sender: AnyObject) {
 		webView.mainFrame.loadRequest(NSURLRequest(URL: NSURL(string: "https://accounts.google.com/Logout?continue=https%3A%2F%2Finbox.google.com%2F")!))
 	}
@@ -80,7 +81,7 @@ class WebViewController: NSViewController, WKNavigationDelegate, NSURLDownloadDe
             webView.mainFrame.loadRequest(request)
         }
     }
-    
+	
 	func webView(webView: WebView!, decidePolicyForMIMEType type: String!, request: NSURLRequest!, frame: WebFrame!, decisionListener listener: WebPolicyDecisionListener!) {
 		if(type != "text/html") {
 			listener.download()
@@ -141,5 +142,5 @@ class WebViewController: NSViewController, WKNavigationDelegate, NSURLDownloadDe
         }
         return true
     }
-    
+	
 }
