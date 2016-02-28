@@ -12,15 +12,18 @@ import AppKit
 import Cocoa
 
 @available(OSX 10.10, *)
-class WebViewController: NSViewController, WKNavigationDelegate, NSURLDownloadDelegate {
+class WebViewController: NSViewController, WKNavigationDelegate, NSURLDownloadDelegate, WebPolicyDelegate, WebUIDelegate {
     
     @IBOutlet weak var webView: WebView!
+    let openURLWebView = WebView()
     let settingsController = Settings(windowNibName: "Settings")
     
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		let url : NSURL!
+        openURLWebView.policyDelegate = self
+
+        let url : NSURL!
 		if let app = NSApplication.sharedApplication().delegate as? AppDelegate, let mailto = app.mailto {
 			url = mailto
 		} else {
@@ -47,6 +50,10 @@ class WebViewController: NSViewController, WKNavigationDelegate, NSURLDownloadDe
 		webView.mainFrame.loadRequest(NSURLRequest(URL: NSURL(string: "https://accounts.google.com/Logout?continue=https%3A%2F%2Finbox.google.com%2F")!))
 	}
     
+    func webView(sender: WebView!, createWebViewWithRequest request: NSURLRequest!) -> WebView! {
+        return openURLWebView
+    }
+
     @available(OSX 10.10, *)
     func webView(sender: WKWebView,
         decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
@@ -63,6 +70,9 @@ class WebViewController: NSViewController, WKNavigationDelegate, NSURLDownloadDe
             let hideHangouts:Bool = (Preferences.getInt("hangoutsMode") > 0)
             
             if (url.hasPrefix("#")) {
+                NSWorkspace.sharedWorkspace().openURL(NSURL(string: url)!)
+                listener.ignore()
+            } else if sender == openURLWebView {
                 NSWorkspace.sharedWorkspace().openURL(NSURL(string: url)!)
                 listener.ignore()
             } else if hideHangouts && hangoutsNav {

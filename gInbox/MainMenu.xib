@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1605" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1605" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
-        <plugIn identifier="com.apple.WebKitIBPlugin" version="9531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -691,35 +690,16 @@
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ" customClass="WebView">
                 <rect key="frame" x="0.0" y="0.0" width="1000" height="600"/>
                 <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <webView translatesAutoresizingMaskIntoConstraints="NO" id="sDI-uK-6ow">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="600"/>
-                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12">
-                            <nil key="identifier"/>
-                        </webPreferences>
-                        <connections>
-                            <outlet property="UIDelegate" destination="EiT-Mj-1SZ" id="98C-S7-sPL"/>
-                            <outlet property="downloadDelegate" destination="FgR-q1-vI5" id="gII-zV-WED"/>
-                            <outlet property="frameLoadDelegate" destination="FgR-q1-vI5" id="nJG-vU-TqF"/>
-                            <outlet property="policyDelegate" destination="EiT-Mj-1SZ" id="8tn-qp-ftm"/>
-                            <outlet property="resourceLoadDelegate" destination="FgR-q1-vI5" id="MeD-IN-taQ"/>
-                        </connections>
-                    </webView>
-                </subviews>
-                <constraints>
-                    <constraint firstAttribute="bottom" secondItem="sDI-uK-6ow" secondAttribute="bottom" id="icP-9E-xBW"/>
-                    <constraint firstAttribute="trailing" secondItem="sDI-uK-6ow" secondAttribute="trailing" id="o5G-Oo-rlQ"/>
-                    <constraint firstItem="sDI-uK-6ow" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="rvi-AW-Hkd"/>
-                    <constraint firstItem="sDI-uK-6ow" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="vgc-qs-3I7"/>
-                </constraints>
                 <connections>
+                    <outlet property="UIDelegate" destination="FgR-q1-vI5" id="d8S-Ed-Mab"/>
+                    <outlet property="downloadDelegate" destination="FgR-q1-vI5" id="653-G2-nbz"/>
                     <outlet property="frameLoadDelegate" destination="FgR-q1-vI5" id="MeH-fT-QZm"/>
                     <outlet property="policyDelegate" destination="FgR-q1-vI5" id="V6A-Aq-CZm"/>
                 </connections>
             </view>
             <point key="canvasLocation" x="-1184" y="-771"/>
         </window>
-        <customObject id="FgR-q1-vI5" customClass="WebViewController" customModule="Inbox" customModuleProvider="target">
+        <customObject id="FgR-q1-vI5" userLabel="WebViewController" customClass="WebViewController" customModule="Inbox" customModuleProvider="target">
             <connections>
                 <outlet property="view" destination="EiT-Mj-1SZ" id="8sQ-dz-W5V"/>
                 <outlet property="webView" destination="EiT-Mj-1SZ" id="enV-sR-1Y8"/>
