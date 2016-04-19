@@ -12,6 +12,7 @@ import AppKit
 import Cocoa
 
 @available(OSX 10.10, *)
+
 class WebViewController: NSViewController, WKNavigationDelegate, NSURLDownloadDelegate, WebPolicyDelegate, WebUIDelegate {
     
     @IBOutlet weak var webView: WebView!
@@ -94,11 +95,7 @@ class WebViewController: NSViewController, WKNavigationDelegate, NSURLDownloadDe
 	
 	func webView(webView: WebView!, decidePolicyForMIMEType type: String!, request: NSURLRequest!, frame: WebFrame!, decisionListener listener: WebPolicyDecisionListener!) {
 		if(type != "text/html") {
-			listener.download()
-			let download = NSURLDownload(request: request, delegate: self)
-			let filename = request.URL?.lastPathComponent ?? "untitled"
-			let path = (NSHomeDirectory() as NSString).stringByAppendingPathComponent("Downloads/\(filename)")
-			download.setDestination(path, allowOverwrite: false)
+            listener.download()
 		}
 	}
 
@@ -142,7 +139,7 @@ class WebViewController: NSViewController, WKNavigationDelegate, NSURLDownloadDe
     }
     
     func webView(sender: WebView!, resource identifier: AnyObject!, willSendRequest request: NSURLRequest!, redirectResponse: NSURLResponse!, fromDataSource dataSource: WebDataSource!) -> NSURLRequest! {
-        
+
         return NSMutableURLRequest(URL: request.URL!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: request.timeoutInterval)
     }
     
@@ -152,5 +149,16 @@ class WebViewController: NSViewController, WKNavigationDelegate, NSURLDownloadDe
         }
         return true
     }
-	
+
+    func download(_download: NSURLDownload,
+                    decideDestinationWithSuggestedFilename filename: String) {
+        let savePanel = NSSavePanel();
+        savePanel.nameFieldStringValue = filename;
+
+        if (savePanel.runModal() == NSModalResponseOK) {
+            _download.setDestination(savePanel.URL!.path!, allowOverwrite: false)
+        } else {
+            _download.cancel()
+        }
+    }
 }
